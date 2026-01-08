@@ -1,0 +1,10 @@
+name: datasets-env
+channels:
+  - conda-forge
+  - bioconda
+  - nodefaults
+dependencies:
+  - r-base==4.4
+  - pydantic >=2,<3
+  - pydantic-core
+  - bioconductor-zellkonverter

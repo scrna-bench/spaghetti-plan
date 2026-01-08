@@ -3,3 +3,24 @@ id: spaghetti-plan
 description: Benchmarking scRNA pipelines
 benchmarker: "Atreya Choudhury"
 version: "1.0.0"
+
+software_backend: "conda"
+software_environments:
+  datasets_conda_env:
+    name: datasets conda environment
+    conda: envs/datasets-conda.yaml
+
+stages:
+  - id: datasets
+    outputs:
+      - id: data.h5ad
+        path: "{dataset}.h5ad"
+    modules:
+      - id: datasets-r
+        name: "loads scRNA datasets"
+        software_environment: "datasets_conda_env"
+        repository:
+          url: https://github.com/scrna-bench/datasets
+          commit: 1e7e34c
+        parameters:
+          - dataset_name: "sc-mix"
