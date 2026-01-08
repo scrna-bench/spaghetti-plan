@@ -1,0 +1,47 @@
+Bootstrap: docker
+From: bioconductor/bioconductor_docker:RELEASE_3_20
+
+%post
+    # Aggiornamento di apt-get
+    apt-get update && apt-get install -y python3-pip libicu70 libicu-dev libhdf5-dev \
+    && pip3 install tensorflow \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+    # Installazione dei pacchetti Bioconductor richiesti
+    R -e 'BiocManager::install("stringi", ask=FALSE, type = "source")'
+    R -e 'BiocManager::install("rARPACK", ask=FALSE)'
+    R -e 'BiocManager::install("RSpectra", ask=FALSE)'
+    R -e 'BiocManager::install("SingleCellExperiment", ask=FALSE)'
+    R -e 'BiocManager::install("zellkonverter", ask=FALSE)'
+    R -e 'BiocManager::install("BiocSingular", ask=FALSE)'
+    R -e 'BiocManager::install("here", ask=FALSE)'
+    R -e 'BiocManager::install("HDF5Array", ask=FALSE)'
+    R -e 'BiocManager::install("mbkmeans", ask=FALSE)'
+    R -e 'BiocManager::install("ggplot2", ask=FALSE)'
+    R -e 'BiocManager::install("scater", ask=FALSE)'
+    R -e 'BiocManager::install("scran", ask=FALSE)'
+    R -e 'BiocManager::install("BiocParallel", ask=FALSE)'
+    R -e 'BiocManager::install("DelayedMatrixStats", ask=FALSE)'
+    R -e 'BiocManager::install("rhdf5", ask=FALSE)'
+    R -e 'BiocManager::install("MultiAssayExperiment", ask=FALSE)'
+    R -e 'BiocManager::install("SingleCellMultiModal", ask=FALSE)'
+    R -e 'BiocManager::install("scuttle", ask=FALSE)'
+    R -e 'BiocManager::install("AnnotationDbi", ask=FALSE)'
+    R -e 'BiocManager::install("mclust", ask=FALSE)'
+    R -e 'BiocManager::install("bluster", ask=FALSE)'
+    R -e 'BiocManager::install("DelayedArray", ask=FALSE)'
+    R -e 'BiocManager::install("dplyr", ask=FALSE)'
+    R -e 'BiocManager::install("Seurat", ask=FALSE)'
+    R -e 'BiocManager::install("patchwork", ask=FALSE)'
+    R -e 'BiocManager::install("BPCells", ask=FALSE)'
+    R -e 'BiocManager::install("SeuratObject", ask=FALSE, type = "source")'
+    R -e 'BiocManager::install("SeuratDisk", ask=FALSE, type = "source")'
+    R -e 'BiocManager::install("scrapper", ask=FALSE)'
+    R -e 'BiocManager::install("parallel", ask=FALSE)'
+    R -e 'BiocManager::install("TENxBrainData", ask=FALSE)'
+    R -e 'BiocManager::install("EnsDb.Hsapiens.v75", ask=FALSE)'
+    R -e 'BiocManager::install("satijalab/azimuth", ask = FALSE)'
+    R -e 'BiocManager::install("bnprks/BPCells/r", ask = FALSE)'
+    R -e 'BiocManager::install("biomaRt")'
+    R -e 'BiocManager::install("DropletUtils", ask = FALSE)'
