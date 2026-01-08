@@ -5,6 +5,7 @@ channels:
   - nodefaults
 dependencies:
   - r-base==4.4
+  - r-argparse
   - pydantic >=2,<3
   - pydantic-core
   - bioconductor-zellkonverter
