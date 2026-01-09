@@ -1,5 +1,5 @@
-name: scRNA Benchmark (full pipelines) 
-id: spaghetti-plan
+name: scRNA Benchmark (full pipelines)
+id: pipelines-plan
 description: "Benchmarking scRNA pipelines (as implemented by Billato et al.: 10.1101/2025.10.28.681564)"
 benchmarker: "Atreya Choudhury, Mark Robinson"
 version: "1.0.0"
