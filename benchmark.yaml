@@ -30,7 +30,7 @@ stages:
         software_environment: "datasets_conda_env"
         repository:
           url: https://github.com/scrna-bench/datasets
-          commit: 1e7e34c
+          commit: main
         parameters:
           - dataset_name: "sc-mix"
   - id: methods
@@ -68,7 +68,7 @@ stages:
         software_environment: "metrics_conda_env"
         repository:
           url: https://github.com/scrna-bench/metrics
-          commit: doloret
+          commit: main
         parameters:
           - metrics: ["adjusted_rand_score"]
     inputs:
