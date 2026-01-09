@@ -1,4 +1,4 @@
-name: scRNA Benchmark (spaghetti)
+name: scRNA Benchmark (pipelines)
 id: pipelines-plan
 description: Benchmarking scRNA pipelines
 benchmarker: "Atreya Choudhury, Mark Robinson, Martin Emons, David Wissel"
@@ -31,13 +31,15 @@ stages:
         parameters:
           - dataset_name: "sc-mix"
   - id: methods
+    inputs:
+      - data.h5ad
     outputs:
       - id: timings.json
-        path: "{dataset}/{stage}/{module}/{param}/timinings.json"
+        path: "{dataset}.timings.json"
       - id: cluster.tsv
-        path: "{dataset}/{stage}/{module}/{param}/cluster.tsv"
+        path: "{dataset}.cluster.tsv"
       - id: pca.tsv
-        path: "{dataset}/{stage}/{module}/{param}/pca.tsv"
+        path: "{dataset}.pca.tsv"
     modules:
       - id: pipelines-r
         name: "run r pipelines"
@@ -55,5 +57,3 @@ stages:
           commit: COMMIT
         parameters:
           - methods: ["scanpy", "rapids"]
-
-
