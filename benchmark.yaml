@@ -76,4 +76,4 @@ stages:
         - data.h5ad
     outputs:
       - id: metrics.scores
-        path: "{dataset}/{stage}/{module}/{param}/scores.json"
+        path: "{dataset}.scores.json"
