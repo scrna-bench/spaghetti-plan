@@ -1,0 +1,70 @@
+name: Validate Modules
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+  workflow_dispatch:
+
+jobs:
+  validate-modules:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Pixi
+        run: |
+          curl -fsSL https://pixi.sh/install.sh | bash
+          echo "$HOME/.pixi/bin" >> $GITHUB_PATH
+
+      - name: Clone omnibenchmark repository
+        run: |
+          git clone --branch ob-hackathon --depth 1 https://github.com/omnibenchmark/omnibenchmark.git omnibenchmark-repo
+
+      - name: Install omnibenchmark with Pixi
+        working-directory: omnibenchmark-repo
+        run: |
+          pixi install
+
+      - name: Install yq for YAML parsing
+        run: |
+          sudo wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64
+          sudo chmod +x /usr/local/bin/yq
+
+      - name: Extract and clone module repositories
+        run: |
+          mkdir -p modules
+
+          # Extract unique repository URLs and commits from benchmark.yaml
+          yq eval '.stages[].modules[] | [.repository.url, .repository.commit, .id] | join(" ")' benchmark.yaml | sort -u | while read -r url commit module_id; do
+            if [ -n "$url" ] && [ -n "$commit" ]; then
+              # Create a directory name from the URL
+              repo_name=$(basename "$url" .git)
+              clone_dir="modules/${repo_name}_${commit}"
+
+              echo "Cloning $url at commit $commit into $clone_dir"
+              git clone "$url" "$clone_dir"
+              cd "$clone_dir"
+              git checkout "$commit"
+              cd ../..
+
+              # Store the mapping for validation
+              echo "$clone_dir" >> modules/repos_to_validate.txt
+            fi
+          done
+
+      - name: Validate all modules
+        run: |
+          if [ -f modules/repos_to_validate.txt ]; then
+            while read -r module_path; do
+              echo "Validating module: $module_path"
+              cd omnibenchmark-repo
+              pixi run ob validate module "../$module_path"
+              cd ..
+            done < modules/repos_to_validate.txt
+          else
+            echo "No modules to validate"
+          fi

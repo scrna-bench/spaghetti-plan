@@ -60,7 +60,6 @@ stages:
           commit: main
         parameters:
           - methods: ["scanpy", "rapids"]
-
   - id: metrics
     modules:
       - id: metrics
