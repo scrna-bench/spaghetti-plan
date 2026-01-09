@@ -15,6 +15,9 @@ software_environments:
   pipelines-py_conda_env:
     name: pipelines-py conda environment
     conda: envs/pipelines-py_conda_env.yaml
+  metrics_conda_env:
+    name: metrics conda env
+    conda: envs/metrics_conda_env.yaml
 
 stages:
   - id: datasets
@@ -27,7 +30,7 @@ stages:
         software_environment: "datasets_conda_env"
         repository:
           url: https://github.com/scrna-bench/datasets
-          commit: 1e7e34c
+          commit: main
         parameters:
           - dataset_name: "sc-mix"
   - id: methods
@@ -57,3 +60,19 @@ stages:
           commit: main
         parameters:
           - methods: ["scanpy", "rapids"]
+  - id: metrics
+    modules:
+      - id: metrics
+        name: "pipelines clustering metrics"
+        software_environment: "metrics_conda_env"
+        repository:
+          url: https://github.com/scrna-bench/metrics
+          commit: main
+        parameters:
+          - metrics: ["adjusted_rand_score"]
+    inputs:
+        - cluster.tsv
+        - data.h5ad
+    outputs:
+      - id: metrics.scores
+        path: "{dataset}.scores.json"
