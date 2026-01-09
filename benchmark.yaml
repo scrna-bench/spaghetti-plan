@@ -72,9 +72,8 @@ stages:
         parameters:
           - metrics: ["adjusted_rand_score"]
     inputs:
-      - entries:
-          - cluster.tsv
-          - data.h5ad
+        - cluster.tsv
+        - data.h5ad
     outputs:
       - id: metrics.scores
         path: "{dataset}/{stage}/{module}/{param}/scores.json"
