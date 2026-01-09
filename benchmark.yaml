@@ -1,4 +1,4 @@
-name: scRNA Benchmark (spaghetti)
+name: scRNA Benchmark (pipelines)
 id: pipelines-plan
 description: Benchmarking scRNA pipelines
 benchmarker: "Atreya Choudhury, Mark Robinson, Martin Emons, David Wissel"
@@ -15,6 +15,9 @@ software_environments:
   pipelines-py_conda_env:
     name: pipelines-py conda environment
     conda: envs/pipelines-py_conda_env.yaml
+  metrics_conda_env:
+    name: metrics conda env
+    conda: envs/metrics_conda_env.yaml
 
 stages:
   - id: datasets
@@ -30,30 +33,21 @@ stages:
           commit: 1e7e34c
         parameters:
           - dataset_name: "sc-mix"
-  - id: methods
-    outputs:
-      - id: timings.json
-        path: "{dataset}/{stage}/{module}/{param}/timinings.json"
-      - id: cluster.tsv
-        path: "{dataset}/{stage}/{module}/{param}/cluster.tsv"
-      - id: pca.tsv
-        path: "{dataset}/{stage}/{module}/{param}/pca.tsv"
+
+  - id: metrics
     modules:
-      - id: pipelines-r
-        name: "run r pipelines"
-        software_environment: "pipelines-r_conda_env"
+      - id: metrics
+        name: "pipelines clustering metrics"
+        software_environment: "metrics_conda_env"
         repository:
-          url: https://github.com/scrna-bench/pipelines-r
-          commit: COMMIT
+          url: https://github.com/scrna-bench/metrics
+          commit: doloret
         parameters:
-          - methods: ["osca", "seurat", "scrapper", "seurat-sketch"]
-      - id: pipeplines-py
-        name: "run python pipelines"
-        software_environment: "pipelines-py_conda_env"
-        repository:
-          url: https://github.com/scrna-bench/pipelines-py
-          commit: COMMIT
-        parameters:
-          - methods: ["scanpy", "rapids"]
-
-
+          - values: ["--metric", "adjusted_rand_score"]
+    inputs:
+      - entries:
+          - cluster.tsv
+          - data.h5ad
+    outputs:
+      - id: metrics.scores
+        path: "{dataset}/{stage}/{module}/{param}/scores.json"
