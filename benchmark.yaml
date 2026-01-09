@@ -60,7 +60,6 @@ stages:
           commit: main
         parameters:
           - methods: ["scanpy", "rapids"]
-
   - id: metrics
     modules:
       - id: metrics
@@ -76,4 +75,4 @@ stages:
         - data.h5ad
     outputs:
       - id: metrics.scores
-        path: "{dataset}/{stage}/{module}/{param}/scores.json"
+        path: "{dataset}.scores.json"
