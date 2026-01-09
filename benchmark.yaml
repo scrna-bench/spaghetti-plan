@@ -1,7 +1,7 @@
-name: scRNA Benchmark (full pipelines) 
-id: spaghetti-plan
-description: "Benchmarking scRNA pipelines (as implemented by Billato et al.: 10.1101/2025.10.28.681564)"
-benchmarker: "Atreya Choudhury, Mark Robinson"
+name: scRNA Benchmark (spaghetti)
+id: pipelines-plan
+description: Benchmarking scRNA pipelines
+benchmarker: "Atreya Choudhury, Mark Robinson, Martin Emons, David Wissel"
 version: "1.0.0"
 
 software_backend: "conda"
@@ -21,6 +21,33 @@ stages:
         software_environment: "datasets_conda_env"
         repository:
           url: https://github.com/scrna-bench/datasets
-          commit: 53d94cb
+          commit: 1e7e34c
         parameters:
           - dataset_name: "sc-mix"
+  - id: methods
+    outputs:
+      - id: timings.json
+        path: "{dataset}/{stage}/{module}/{param}/timinings.json"
+      - id: cluster.tsv
+        path: "{dataset}/{stage}/{module}/{param}/cluster.tsv"
+      - id: pca.tsv
+        path: "{dataset}/{stage}/{module}/{param}/pca.tsv"
+    modules:
+      - id: pipelines-r
+        name: "run r pipelines"
+        software_environment: "pipelines-r_conda_env"
+        repository:
+          url: https://github.com/scrna-bench/pipelines-r
+          commit: COMMIT
+        parameters:
+          - methods: ["osca", "seurat", "scrapper", "seurat-sketch"]
+      - id: pipeplines-py
+        name: "run python pipelines"
+        software_environment: "pipelines-py_conda_env"
+        repository:
+          url: https://github.com/scrna-bench/pipelines-py
+          commit: COMMIT
+        parameters:
+          - methods: ["scanpy", "rapids"]
+
+
