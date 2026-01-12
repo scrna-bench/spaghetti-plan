@@ -9,5 +9,6 @@ From: bioconductor/bioconductor_docker:RELEASE_3_20
     apt-get update && apt-get install -y python3.12 libhdf5-dev libicu-dev \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && ln -s /usr/bin/python3 /usr/bin/python
+    && ln -s /usr/bin/python3 /usr/bin/python \
+    && R -e "BiocManager::install(c('argparse','zellkonverter','TENxBrainData','SingleCellMultiModal'))"
 
