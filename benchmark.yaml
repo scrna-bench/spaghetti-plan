@@ -53,4 +53,4 @@ stages:
           url: https://github.com/scrna-bench/pipelines-py
           commit: main
         parameters:
-          - methods: ["scanpy", "rapids"]
+          - methods: ["scanpy"]
