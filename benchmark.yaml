@@ -1,14 +1,14 @@
 name: scRNA Benchmark (pipelines)
 id: pipelines-plan
 description: "Benchmarking scRNA pipelines (as implemented by Billato et al.: 10.1101/2025.10.28.681564)"
-benchmarker: "Atreya Choudhury, Mark Robinson, Martin Emons, David Wissel"
+benchmarker: "Atreya Choudhury, Mark Robinson, Martin Emons, David Wissel, Samuel Gunz"
 version: "1.0.0"
 
 software_backend: "apptainer"
 software_environments:
   datasets_apptainer_env:
     name: datasets apptainer environment
-    apptainer: envs/r-bioc-320-micro.sif
+    apptainer: oras://quay.io/omnibenchmark/scrna-bench:r-bioc-320-bf15bdde
   #datasets_conda_env:
   #  name: datasets conda environment
   #  conda: envs/datasets-conda.yaml
