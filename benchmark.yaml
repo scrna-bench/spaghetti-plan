@@ -44,7 +44,7 @@ stages:
         software_environment: "r_apptainer_env"
         repository:
           url: https://github.com/scrna-bench/pipelines-r
-          commit: main
+          commit: e415d1f
         parameters:
           - method_name: ["seurat", "osca", "scrapper"]
       - id: pipelines-py
