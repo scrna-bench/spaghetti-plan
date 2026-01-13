@@ -2,19 +2,16 @@ name: scRNA Benchmark (pipelines)
 id: pipelines-plan
 description: "Benchmarking scRNA pipelines (as implemented by Billato et al.: 10.1101/2025.10.28.681564)"
 benchmarker: "Atreya Choudhury, Mark Robinson, Martin Emons, David Wissel"
-version: "1.0.0"
+version: "1.0.1"
 
 software_backend: "apptainer"
 software_environments:
-  datasets_conda_env:
-    name: datasets conda environment
-    apptainer: envs/scanpy/scanpy_env.sif
-  pipelines-r_conda_env:
-    name: pipelines-r conda environment
-    conda: envs/pipelines-r_conda_env.yaml
+  r_apptainer_env:
+    name: datasets apptainer environment
+    apptainer: envs/r-bioc-320-micro.sif
   pipelines-py_apptainer:
     name: pipelines-py apptainer environment
-    apptainer: envs/scanpy/scanpy_env.sif
+    apptainer: envs/scanpy_full.sif
 
 stages:
   - id: datasets
@@ -24,10 +21,10 @@ stages:
     modules:
       - id: datasets-r
         name: "loads scRNA datasets"
-        software_environment: "datasets_conda_env"
+        software_environment: "r_apptainer_env"
         repository:
           url: https://github.com/scrna-bench/datasets
-          commit: 1e7e34c
+          commit: 411b717
         parameters:
           - dataset_name: "sc-mix"
   - id: methods
@@ -37,19 +34,19 @@ stages:
       - id: timings.json
         path: "{dataset}.timings.json"
       - id: cluster.tsv
-        path: "{dataset}.cluster.tsv"
+        path: "{dataset}.clusters.tsv"
       - id: pca.tsv
         path: "{dataset}.pca.tsv"
     modules:
       - id: pipelines-r
         name: "run r pipelines"
-        software_environment: "pipelines-r_conda_env"
+        software_environment: "r_apptainer_env"
         repository:
           url: https://github.com/scrna-bench/pipelines-r
           commit: main
         parameters:
-          - methods: ["osca", "seurat", "scrapper", "seurat-sketch"]
-      - id: pipeplines-py
+          - method_name: ["seurat", "osca", "scrapper"]
+      - id: pipelines-py
         name: "run python pipelines"
         software_environment: "pipelines-py_apptainer"
         repository:

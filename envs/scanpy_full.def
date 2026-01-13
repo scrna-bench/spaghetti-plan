@@ -21,6 +21,7 @@ From: python:3.12.9-slim
         libglpk-dev \
         libgmp-dev \
         pkg-config \
+        git-all \
         && rm -rf /var/lib/apt/lists/*
 
     # Upgrade pip only
