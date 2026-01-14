@@ -68,7 +68,7 @@ stages:
           url: https://github.com/scrna-bench/pipelines-py
           commit: main
         parameters:
-          - methods: ["scanpy"]
+          - method_name: ["scanpy"]
   - id: metrics
     inputs:
       - data.clusters_truth
