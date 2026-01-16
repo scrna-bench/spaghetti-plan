@@ -32,8 +32,8 @@ jobs:
       - name: Install apptainer
         working-directory: omnibenchmark-repo
         run: |
+          curl -s https://raw.githubusercontent.com/apptainer/apptainer/main/tools/install-unprivileged.sh | bash -s - .
           apptainer --version
-          #curl -s https://raw.githubusercontent.com/apptainer/apptainer/main/tools/install-unprivileged.sh | bash -s - .
 
       - name: Run benchmark.yaml
         working-directory: omnibenchmark-repo
