@@ -33,7 +33,8 @@ jobs:
         working-directory: omnibenchmark-repo
         run: |
           curl -s https://raw.githubusercontent.com/apptainer/apptainer/main/tools/install-unprivileged.sh | bash -s - /opt
-          /opt/apptainer --version
+          /opt/bin/apptainer --version
+          export PATH=$PATH:/opt/bin
 
       - name: Run benchmark.yaml
         working-directory: omnibenchmark-repo
