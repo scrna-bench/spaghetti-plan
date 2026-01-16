@@ -1,4 +1,4 @@
-name: Validate Benchmark
+name: Run (small) Benchmark
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  validate:
+  run-benchmark:
     runs-on: ubuntu-latest
 
     steps:
