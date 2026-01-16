@@ -11,7 +11,7 @@ software_environments:
     apptainer: oras://quay.io/omnibenchmark/scrna-bench:r-bioc-320-bf15bdde
   pipelines-py_apptainer:
     name: pipelines-py apptainer environment
-    apptainer: envs/scanpy_full.sif
+    apptainer: oras://quay.io/omnibenchmark/scrna-bench:scanpy-latest-amd64
   #datasets_conda_env:
   #  name: datasets conda environment
   #  conda: envs/datasets-conda.yaml
@@ -25,11 +25,28 @@ software_environments:
 #    name: metrics conda env
 #    conda: envs/metrics_conda_env.yaml
 
+metric_collectors:
+  - id: report
+    name: "Gathers and processes metrics from different pipelines"
+    software_environment: "r_apptainer_env"
+    repository:
+      url: https://github.com/scrna-bench/pipelines-report
+      commit: main
+    inputs:
+      - metrics.json
+    outputs:
+      - id: report.ari
+        path: "out/report/ari.tsv"
+      - id: report.timings
+        path: "out/report/timings.tsv"
+
 stages:
   - id: datasets
     outputs:
       - id: data.h5ad
         path: "{dataset}.h5ad"
+      - id: data.clusters_truth
+        path: "{dataset}.clusters_truth.tsv"
     modules:
       - id: datasets-r
         name: "loads scRNA datasets"
@@ -66,4 +83,19 @@ stages:
           url: https://github.com/scrna-bench/pipelines-py
           commit: main
         parameters:
-          - methods: ["scanpy"]
+          - method_name: ["scanpy"]
+  - id: metrics
+    inputs:
+      - data.clusters_truth
+      - cluster.tsv
+      - timings.json
+    outputs:
+      - id: metrics.json
+        path: "{dataset}.metrics.json"
+    modules:
+      - id: metrics
+        name: "compute metrics"
+        software_environment: "r_apptainer_env"
+        repository:
+          url: https://github.com/scrna-bench/metrics
+          commit: main
