@@ -1,0 +1,35 @@
+name: Validate Benchmark
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Pixi
+        run: |
+          curl -fsSL https://pixi.sh/install.sh | bash
+          echo "$HOME/.pixi/bin" >> $GITHUB_PATH
+
+      - name: Clone omnibenchmark repository
+        run: |
+          git clone --branch ob-hackathon --depth 1 https://github.com/omnibenchmark/omnibenchmark.git omnibenchmark-repo
+
+      - name: Install omnibenchmark with Pixi
+        working-directory: omnibenchmark-repo
+        run: |
+          pixi install
+
+      - name: Validate benchmark.yaml
+        working-directory: omnibenchmark-repo
+        run: |
+          pixi run ob run ../benchmark.yaml --cores 4
