@@ -32,12 +32,19 @@ jobs:
       - name: install dependencies
         run: sudo apt update && sudo apt upgrade -y && sudo apt-get install -y build-essential squashfs-tools 
 
-      - name: Install apptainer
+      #- name: Install apptainer
+      #  working-directory: omnibenchmark-repo
+      #  run: |
+      #    curl -s https://raw.githubusercontent.com/apptainer/apptainer/main/tools/install-unprivileged.sh | bash -s - /opt
+      #    /opt/bin/apptainer --version
+      #    export PATH=$PATH:/opt/bin
+
+      - name: Install apptainer (alternative)
         working-directory: omnibenchmark-repo
         run: |
-          curl -s https://raw.githubusercontent.com/apptainer/apptainer/main/tools/install-unprivileged.sh | bash -s - /opt
-          /opt/bin/apptainer --version
-          export PATH=$PATH:/opt/bin
+          add-apt-repository -y ppa:apptainer/ppa && apt update && apt install -y apptainer
+          which apptainer
+          apptainer --version
 
       - name: Run benchmark.yaml
         working-directory: omnibenchmark-repo
