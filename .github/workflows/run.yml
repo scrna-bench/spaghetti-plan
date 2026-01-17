@@ -15,6 +15,9 @@ jobs:
       - name: Checkout                               ## to checkout the tested repo
         uses: actions/checkout@v4
 
+      - name: Change HOME
+        run: export HOME=/home/runner/work
+
       - name: Use action                             
         uses: markrobinsonuzh/run_omnibenchmark@main
         with:
