@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: install updated omnibenchmark          ## to checkout the tested repo
-        uses: pip install omnibenchmark==0.4.0rc2
+        run: pip install omnibenchmark==0.4.0rc2
 
       - name: Use action                             
         uses: omnibenchmark/run_omnibenchmark@main
