@@ -30,8 +30,7 @@ jobs:
           pixi install
 
       - name: install dependencies
-        run: sudo apt update && sudo apt upgrade -y && sudo apt-get install -y build-essential libseccomp-dev \
-               pkg-config uidmap squashfs-tools cryptsetup tzdata 
+        run: sudo apt update && sudo apt upgrade -y && sudo apt-get install -y build-essential squashfs-tools 
 
       - name: Install apptainer
         working-directory: omnibenchmark-repo
