@@ -20,4 +20,5 @@ jobs:
         with:
           yaml: benchmark.yaml          
           backend: apptainer 
+          cores: 4
 
