@@ -8,7 +8,7 @@ software_backend: "apptainer"
 software_environments:
   r_apptainer_env:
     name: datasets apptainer environment
-    apptainer: oras://quay.io/omnibenchmark/scrna-bench:r-bioc-320-bf15bdde
+    apptainer: oras://quay.io/omnibenchmark/scrna-bench:r-bioc-320-latest-amd64
   pipelines-py_apptainer:
     name: pipelines-py apptainer environment
     apptainer: oras://quay.io/omnibenchmark/scrna-bench:scanpy-latest-amd64
@@ -36,9 +36,9 @@ metric_collectors:
       - metrics.json
     outputs:
       - id: report.ari
-        path: "out/report/ari.tsv"
+        path: "report/ari.tsv"
       - id: report.timings
-        path: "out/report/timings.tsv"
+        path: "report/timings.tsv"
 
 stages:
   - id: datasets
@@ -55,8 +55,8 @@ stages:
           url: https://github.com/scrna-bench/datasets
           commit: main
         parameters:
-          - dataset_name: "sc-mix"
-            #- dataset_name: ["sc-mix", "cb"]
+          - dataset_name: ["sc-mix", "be1", "cb"]
+          # - dataset_name: ["sc-mix", "be1", "cb", "1.3m"]
   - id: methods
     inputs:
       - data.h5ad
