@@ -76,6 +76,7 @@ stages:
           commit: main
         parameters:
           - method_name: ["seurat", "osca", "scrapper"]
+            resolution: [0.1, 0.12, 0.14]
       - id: pipelines-py
         name: "run python pipelines"
         software_environment: "pipelines-py_apptainer"
@@ -84,6 +85,7 @@ stages:
           commit: main
         parameters:
           - method_name: ["scanpy"]
+            resolution: [0.1, 0.12, 0.14]
   - id: metrics
     inputs:
       - data.clusters_truth
