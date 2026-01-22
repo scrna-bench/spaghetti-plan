@@ -39,6 +39,8 @@ metric_collectors:
         path: "report/ari.tsv"
       - id: report.timings
         path: "report/timings.tsv"
+      - id: report.plots
+        path: "report/plots.html"
 
 stages:
   - id: datasets
