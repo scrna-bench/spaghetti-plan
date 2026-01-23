@@ -79,10 +79,8 @@ From: rapidsai/base:26.02a-cuda12-py3.12
         stdlib-list==0.11.1 \
         legacy-api-wrap==1.4.1 \
         unicodedata2==16.0.0 \
-        scanpy==1.10.4
-    
-    # Install rapids-singlecell (GPU-accelerated single-cell analysis)
-    pip install --no-cache-dir rapids-singlecell==0.13.5
+        scanpy==1.10.4 \
+        rapids-singlecell==0.13.5
 
     # Cleanup
     apt-get purge -y \
